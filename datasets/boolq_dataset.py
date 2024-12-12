@@ -16,27 +16,34 @@ class BoolQDataset(Dataset):
 
     def _load_data(self):
         """Loads data from the JSONL file."""
+        data = []
         with open(self.data_path, 'r') as f:
-            return [json.loads(line) for line in f]
+            for idx, line in enumerate(f):  # Add idx while reading
+                sample = json.loads(line)
+                question = sample.get('question', None)
+                passage = sample.get('passage', None)
+                label = sample.get('answer', None)
+                data.append({
+                    'idx': idx,        # Add idx directly in the data
+                    'question': question,
+                    'passage': passage,
+                    'label': label
+                })
+        return data
 
     def __len__(self):
         return len(self.data)
 
     def __getitem__(self, idx):
         if isinstance(idx, slice):
-            return [self.data[i] for i in range(*idx.indices(len(self)))]
-
+            return [self._get_item(i) for i in range(*idx.indices(len(self)))]
+        
         if isinstance(idx, int):
             if idx < 0 or idx >= len(self.data):
                 raise IndexError(f"Index {idx} is out of range.")
+        
+        return self._get_item(idx)
 
+    def _get_item(self, idx):
         sample = self.data[idx]
-        question = sample['question']
-        passage = sample['passage']
-        label = sample['answer'] if 'answer' in sample else None
-
-        return {
-            'question': question,
-            'passage': passage,
-            'label': label
-        }
+        return sample  # No need to extract 'idx' here since it's already part of the data

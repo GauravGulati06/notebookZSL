@@ -1,6 +1,5 @@
 import os
-import json
-import pandas as pd
+import csv
 from torch.utils.data import Dataset
 
 class GSM8KDataset(Dataset):
@@ -17,7 +16,18 @@ class GSM8KDataset(Dataset):
 
     def _load_data(self):
         """Loads data from the CSV file."""
-        return pd.read_csv(self.data_path)
+        data = []
+        with open(self.data_path, 'r', encoding='utf-8') as file:
+            csv_reader = csv.DictReader(file)
+            for idx, row in enumerate(csv_reader):  # Add idx while reading
+                question = row.get('question', '')
+                answer = row.get('answer', '')
+                data.append({
+                    'idx': idx,         # Add idx directly in the data
+                    'question': question,
+                    'answer': answer
+                })
+        return data
 
     def __len__(self):
         return len(self.data)
@@ -25,19 +35,13 @@ class GSM8KDataset(Dataset):
     def __getitem__(self, idx):
         if isinstance(idx, slice):
             return [self._get_item(i) for i in range(*idx.indices(len(self)))]
-
+        
         if isinstance(idx, int):
             if idx < 0 or idx >= len(self.data):
                 raise IndexError(f"Index {idx} is out of range.")
-
+        
         return self._get_item(idx)
 
     def _get_item(self, idx):
-        sample = self.data.iloc[idx]
-        question = sample['question'] if 'question' in sample else None
-        answer = sample['answer'] if 'answer' in sample else None
-
-        return {
-            'question': question,
-            'answer': answer
-        }
+        sample = self.data[idx]
+        return sample  # No need to extract 'idx' here since it's already part of the data
