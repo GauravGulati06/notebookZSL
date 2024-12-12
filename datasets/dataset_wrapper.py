@@ -1,7 +1,6 @@
 from boolq_dataset import BoolQDataset
 from gsm8k_dataset import GSM8KDataset
 import random
-from collections import defaultdict
 
 class DatasetWrapper:
 
