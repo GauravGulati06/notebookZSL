@@ -37,21 +37,16 @@ The accuracies achieved by the models on the Google BoolQ dataset are as follows
    pip install -r requirements.txt
    ```
 
-🤝 Contributing
-Contributions are welcome! If you'd like to contribute, please:
+## 🤝 Contributing
+- Contributions are welcome! If you'd like to contribute, please:
+- Fork the repository.
+- Create a new branch for your feature or bugfix.
+- Submit a pull request with a detailed description of your changes.
 
-Fork the repository.
+## 📜 License
+- This project is licensed under the GPL-3.0 License. See the LICENSE file for details.
 
-Create a new branch for your feature or bugfix.
-
-Submit a pull request with a detailed description of your changes.
-
-📜 License
-This project is licensed under the GPL-3.0 License. See the LICENSE file for details.
-
-🙏 Acknowledgments
-Hugging Face for providing the Transformers library and pre-trained models.
-
-Google for the BoolQ dataset.
-
-Kaggle for hosting the dataset and providing a platform for data science research.
+## 🙏 Acknowledgments
+- Hugging Face for providing the Transformers library and pre-trained models.
+- Google for the BoolQ dataset.
+- Kaggle for hosting the dataset and providing a platform for data science research.
